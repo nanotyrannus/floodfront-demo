@@ -1,0 +1,41 @@
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+.show {
+    visibility: initial;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+body {
+    width: 90vw;
+    height: 90vh;
+}
+
+#slider {
+    margin: 1%;
+}
+
+.leaflet-marker-icon:hover {
+    opacity: 0.5;
+}
+
+#map-container {
+    width: 100%;
+    height: 100%;
+}
+
+#loading-splash {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 1);
+    font-size: 5em;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
