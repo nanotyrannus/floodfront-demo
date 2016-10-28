@@ -11,6 +11,15 @@
     visibility: hidden;
 }
 
+#rotate-slider {
+    width: 20px;
+    height: 20px;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 999;
+}
+
 body {
     width: 90vw;
     height: 90vh;
@@ -18,10 +27,6 @@ body {
 
 #slider {
     margin: 1%;
-}
-
-.leaflet-marker-icon:hover {
-    opacity: 0.5;
 }
 
 #map-container {

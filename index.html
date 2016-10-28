@@ -2,9 +2,12 @@
 
 <head>
 	<link rel="stylesheet" href="styles.css">
-	<link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
+	<link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="node_modules/leaflet-rotatedmarker/leaflet-search.src.css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
-	<script src="bower_components/leaflet/dist/leaflet.js"></script>
+	<script src="node_modules/leaflet/dist/leaflet.js"></script>
+    	<script src="node_modules/leaflet-rotatedmarker/leaflet.rotatedMarker.js"></script>
+        <script src="node_modules/leaflet-rotatedmarker/leaflet-search.src.js"></script>
 	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
@@ -15,8 +18,12 @@
 		<div id="map"></div>
 	</div>
 	<div id="slider"></div>
+	<button onclick="primeMarker()">Place Marker</button>
+	<button onclick="primeDirectionalMarker()">Place Directional Marker</button>
+	<button>Export as KML</button>
 	<div id="loading-splash">
 		<span>Waiting for location...</span>
 	</div>
+	<img id="rotate-slider" draggable="true" src="/assets/images/rotate_icon.png">
 </body>
 <script src="script.js"></script>
