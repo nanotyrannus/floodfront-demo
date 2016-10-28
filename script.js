@@ -1,13 +1,19 @@
 if ('geolocation' in navigator) {
+    var mapElem = document.getElementById('map-container')
     navigator.geolocation.getCurrentPosition(position => {
+        var coords = position.coords
         console.log(position)
-        let coords = position.coords
         map.setView([coords.latitude, coords.longitude])
-        let mapElem = document.getElementById('map-container')
         mapElem.classList.remove('hide')
         mapElem.classList.add('show')
         document.getElementById('loading-splash').style.display = "none"
     })
+    setTimeout(() => {
+        mapElem.classList.remove('hide')
+        mapElem.classList.add('show')
+        document.getElementById('loading-splash').style.display = "none" 
+        map.setView([34.008672, -118.496642])
+    }, 5000)
 } else {
     alert("Geolocation API not supported in this browser!")
 }
@@ -156,7 +162,7 @@ function updateRotateSlider(dragX, dragY) {
     let LENGTH = 50
     let dx = dragX - selectedMarker.centerX, dy = dragY - selectedMarker.centerY
     let hyp = Math.sqrt(Math.pow(dx, 2), Math.pow(dy, 2))
-    let atan = Math.atan(-dy/dx)/Math.PI * 180
+    let atan = Math.atan(-dy / dx) / Math.PI * 180
     if (dx > 0 && dy < 0) {
         //1st quadrant
         //Do nothing
@@ -214,15 +220,15 @@ function toXmlString() {
 
     function generatePlacemark(name, coords, deg = null) {
         var result =
-                    `<Placemark>
-                        <name>${ name }</name>` +
-                        ((deg !== null && deg !== undefined) ? `<ExtendedData>
+            `<Placemark>
+                        <name>${ name}</name>` +
+            ((deg !== null && deg !== undefined) ? `<ExtendedData>
                             <Data name="angle">
-                                <value>${ deg }</value>
+                                <value>${ deg}</value>
                             </Data>
                         </ExtendedData>` : "") +
-                        `<Point>
-                            <coordinates>${ coords.lng }, ${ coords.lat }</coordinates>
+            `<Point>
+                            <coordinates>${ coords.lng}, ${coords.lat}</coordinates>
                         </Point>
                      </Placemark>`
         return result
