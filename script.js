@@ -89,7 +89,10 @@ map.on('click', event => {
     marker.on('click', event => {
         selectedMarker = marker
         $('#slider').slider('value', (marker.type === Marker.DIRECTIONAL) ? marker.degrees : 0)
-        showRotateSlider(event.originalEvent.pageX, event.originalEvent.pageY)
+        $('#slider').slider('value', marker.degrees)
+        if (selectedMarker.type === Marker.DIRECTIONAL) {
+            showRotateSlider(event.originalEvent.pageX, event.originalEvent.pageY)
+        }
     })
     markers[marker_count++] = marker
     marker.addTo(map)
