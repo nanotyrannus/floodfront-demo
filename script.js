@@ -13,6 +13,7 @@ if ('geolocation' in navigator) {
 }
 var map = L.map('map')
 var rotateSlider = $('#rotate-slider')[0]
+var slider = $('#slider')
 rotateSlider.addEventListener('drag', event => {
     if (event.pageX === 0 && event.pageY === 0) {
         return
@@ -75,10 +76,12 @@ map.on('click', event => {
         // marker.setRotationAngle(-line.getRotation())
         marker.setRotationAngle(marker.degrees)
         $('#slider').slider('value', marker.degrees)
+        showRotateSlider(event.originalEvent.pageX, event.originalEvent.pageY)
     })
     marker.on('click', event => {
         selectedMarker = marker
         $('#slider').slider('value', (marker.type === Marker.DIRECTIONAL) ? marker.degrees : 0)
+        showRotateSlider(event.originalEvent.pageX, event.originalEvent.pageY)
     })
     markers[marker_count++] = marker
     marker.addTo(map)
@@ -89,6 +92,10 @@ map.on('click', event => {
         showRotateSlider(event.originalEvent.pageX, event.originalEvent.pageY)
     }
     $('#slider').slider('value', 0)
+})
+
+map.on('drag', event => {
+    hideRotateSlider()
 })
 
 function generateLine(latlng, _deg = 0, _length = 0.005) {
@@ -130,7 +137,7 @@ function generateLine(latlng, _deg = 0, _length = 0.005) {
 // })
 
 function showRotateSlider(clickX, clickY) {
-
+    rotateSlider.style.display = "initial"
     let LENGTH = 50 //radius length
     let width = rotateSlider.width, height = rotateSlider.height
 
@@ -141,12 +148,32 @@ function showRotateSlider(clickX, clickY) {
     rotateSlider.style.left = selectedMarker.centerX + "px"
 }
 
+function hideRotateSlider() {
+    rotateSlider.style.display = "none"
+}
+
 function updateRotateSlider(dragX, dragY) {
     let LENGTH = 50
     let dx = dragX - selectedMarker.centerX, dy = dragY - selectedMarker.centerY
     let hyp = Math.sqrt(Math.pow(dx, 2), Math.pow(dy, 2))
-    let atan = Math.atan(dy/dx)
-    console.log(`dx: ${dx}\ndy: ${dy}, hyp: ${ hyp }, atan: ${ (atan/Math.PI) * 180 }`)
+    let atan = Math.atan(-dy/dx)/Math.PI * 180
+    if (dx > 0 && dy < 0) {
+        //1st quadrant
+        //Do nothing
+    } else if (dx < 0 && dy < 0) {
+        //2nd
+        atan = 180 - Math.abs(atan)
+    } else if (dx < 0 && dy > 0) {
+        //3rd
+        atan = atan + 180
+    } else if (dx > 0 && dy > 0) {
+        //4th
+        atan = 360 - Math.abs(atan)
+    }
+    // console.log(`dx: ${dx}\ndy: ${dy}, hyp: ${ hyp }, atan: ${ atan }`)
+    selectedMarker.setRotationAngle(-atan - 90)
+    selectedMarker.degrees = -atan - 90
+    slider.slider('value', atan)
 }
 
 $('#slider').slider({
@@ -175,4 +202,39 @@ function primeMarker() {
 function primeDirectionalMarker() {
     primed = true
     markerType = Marker.DIRECTIONAL
+}
+
+function toXmlString() {
+    var header = '<kml xmlns="http://www.opengis.net/kml/2.2">\n'
+    var doc = ""
+
+    markers.forEach((marker, idx) => {
+        doc += generatePlacemark(idx, marker.getLatLng(), marker.degrees)
+    })
+
+    function generatePlacemark(name, coords, deg = null) {
+        var result =
+                    `<Placemark>
+                        <name>${ name }</name>` +
+                        ((deg !== null && deg !== undefined) ? `<ExtendedData>
+                            <Data name="angle">
+                                <value>${ deg }</value>
+                            </Data>
+                        </ExtendedData>` : "") +
+                        `<Point>
+                            <coordinates>${ coords.lng }, ${ coords.lat }</coordinates>
+                        </Point>
+                     </Placemark>`
+        return result
+    }
+    return header + "<Document>\n" + doc + "\n</Document>\n</kml>"
+}
+
+function toXml() {
+    return jQuery.parseXML(toXmlString())
+}
+
+function downloadXml() {
+    let uriContent = "data:application/octet-stream," + encodeURIComponent(toXmlString());
+    let newWindow = window.open(uriContent, 'document');
 }

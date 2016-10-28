@@ -1,0 +1,37 @@
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<Placemark>
+                        <name>0</name><ExtendedData>
+                            <Data name="angle">
+                                <value>-283.1906107122069</value>
+                            </Data>
+                        </ExtendedData><Point>
+                            <coordinates>-118.13244578174479, 34.10340090456253</coordinates>
+                        </Point>
+                     </Placemark><Placemark>
+                        <name>1</name><ExtendedData>
+                            <Data name="angle">
+                                <value>-106.05998730716064</value>
+                            </Data>
+                        </ExtendedData><Point>
+                            <coordinates>-118.13420531085856, 34.10351639344859</coordinates>
+                        </Point>
+                     </Placemark><Placemark>
+                        <name>2</name><ExtendedData>
+                            <Data name="angle">
+                                <value>-93.17983011986423</value>
+                            </Data>
+                        </ExtendedData><Point>
+                            <coordinates>-118.13057896427041, 34.102094980805255</coordinates>
+                        </Point>
+                     </Placemark><Placemark>
+                        <name>3</name><Point>
+                            <coordinates>-118.13396927646524, 34.10243256847004</coordinates>
+                        </Point>
+                     </Placemark><Placemark>
+                        <name>4</name><Point>
+                            <coordinates>-118.13321825794108, 34.1038717428786</coordinates>
+                        </Point>
+                     </Placemark>
+</Document>
+</kml>
