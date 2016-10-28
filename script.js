@@ -13,7 +13,7 @@ if ('geolocation' in navigator) {
         mapElem.classList.add('show')
         document.getElementById('loading-splash').style.display = "none" 
         map.setView([34.008672, -118.496642])
-    }, 5000)
+    }, 3000)
 } else {
     alert("Geolocation API not supported in this browser!")
 }
@@ -82,7 +82,9 @@ map.on('click', event => {
         // marker.setRotationAngle(-line.getRotation())
         marker.setRotationAngle(marker.degrees)
         $('#slider').slider('value', marker.degrees)
-        showRotateSlider(event.originalEvent.pageX, event.originalEvent.pageY)
+        if (selectedMarker.type === Marker.DIRECTIONAL) {
+            showRotateSlider(event.originalEvent.pageX, event.originalEvent.pageY)
+        }
     })
     marker.on('click', event => {
         selectedMarker = marker
